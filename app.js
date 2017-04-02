@@ -5,6 +5,7 @@
 
 const Discord = require("discord.js");
 const conf = require("./conf");
+const _ = require("lodash");
 
 const bot = new Discord.Client();
 
