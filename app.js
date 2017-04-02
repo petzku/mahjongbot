@@ -55,7 +55,7 @@ function process_command(content) {
     const dora_tile = hand_regex.exec(content)[0];
     msg += "ドラ" + (hand_to_emoji(dora_tile)) + "        ";
     // this should work...
-    msg += process_hand(content.drop_to_first(dora_tile));
+    msg += process_hand(drop_to_first(content, dora_tile));
     return msg;
   } else if (content.startsWith("sort")) {
     let msg = "";
@@ -98,7 +98,7 @@ bot.on('message', message => {
       message.channel.sendMessage(msg);
     }
   } else if (content.includes(prefix)) {
-    const rest = content.drop_to_first(needle);
+    const rest = drop_to_first(content, prefix);
 
     // test that it was actually a hand, and not a random use of $prefix
     if (new RegExp("^" + part_regex.source).test(rest)) {
