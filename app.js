@@ -69,29 +69,35 @@ function hand_to_emoji(hand) {
   return res;
 }
 
+function process_command(content) {
+  var msg = "";
+
+  if (content.startsWith("dora")) {
+    // dora tile
+    msg += "ドラ" + (hand_to_emoji(hand_regex.exec(content)[0])) + "        ";
+  }
+  var match;
+
+  while ((match = hand_regex.exec(content)) !== null) {
+    var hand = match[0];
+    msg += hand_to_emoji(hand) + "    ";
+  }
+  return msg;
+}
+
 bot.on('message', message => {
   var content = message.content;
   if (content.startsWith(prefix)) {
     // remove the prefix
     content = content.replace(prefix, '');
-    var msg = "";
-
-    if (content.startsWith("dora")) {
-      // dora tile
-      msg += "ドラ" + (hand_to_emoji(hand_regex.exec(content)[0])) + "        ";
-    }
-    var match;
-
-    while ((match = hand_regex.exec(content)) !== null) {
-      var hand = match[0];
-      msg += hand_to_emoji(hand) + "    ";
-    }
+    var msg = process_command(content);
     message.channel.sendMessage(msg);
   } else if (content.includes(prefix)) {
     var rest = content.substring(content.indexOf(prefix)+1);
     // test that it was actually a command, and not a random use of $prefix
     if (new RegExp("^" + part_regex.source()).match(rest)) {
-      // process the rest of this
+      var msg = process_command(content);
+      message.channel.sendMessage(msg);
     }
   }
 });
