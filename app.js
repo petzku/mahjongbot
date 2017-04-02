@@ -87,6 +87,12 @@ bot.on('message', message => {
       msg += hand_to_emoji(hand) + "    ";
     }
     message.channel.sendMessage(msg);
+  } else if (content.includes(prefix)) {
+    var rest = content.substring(content.indexOf(prefix)+1);
+    // test that it was actually a command, and not a random use of $prefix
+    if (new RegExp("^" + part_regex.source()).match(rest)) {
+      // process the rest of this
+    }
   }
 });
 
