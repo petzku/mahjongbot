@@ -43,6 +43,11 @@ function hand_to_emoji(hand) {
   return tiles_to_emoji(hand_to_tiles(hand));
 }
 
+function sort_tiles(tiles) {
+  const sorted = _.orderBy(tiles, [1, 0]);
+  return sorted;
+}
+
 function process_command(content) {
   if (content.startsWith("dora")) {
     let msg = "";
@@ -51,6 +56,13 @@ function process_command(content) {
     msg += "ドラ" + (hand_to_emoji(dora_tile)) + "        ";
     // this should work...
     msg += process_hand(content.drop_to_first(dora_tile));
+    return msg;
+  } else if (content.startsWith("sort")) {
+    let msg = "";
+    let match;
+    while ((match = hand_regex.exec(content)) !== null) {
+      msg += tiles_to_emoji(sort_tiles(hand_to_tiles(match[0]))) + "    ";
+    }
     return msg;
   } else if (content.startsWith("hand")) {
     return process_hand(content);
