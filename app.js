@@ -19,8 +19,7 @@ const tile_regex = /[0-9][pms]|[1-7]z/;
 function tiles_to_emoji(tiles) {
   let res = "";
   for (const t of tiles) {
-    const code = t + suit;
-    res += "<:" + code + ":" + emoji_codes[code] + ">";
+    res += "<:" + t + ":" + emoji_codes[t] + ">";
   }
   return res;
 }
@@ -30,11 +29,10 @@ function hand_to_tiles(hand) {
   let tiles = [];
 
   while ((match = part_regex.exec(hand)) !== null) {
-    const tiles = match[1] || match[3];
+    const nums = match[1] || match[3];
     const suit = match[2] || 'z';
-
-    for (const t of tiles) {
-      tiles.push(t + suit);
+    for (const n of nums) {
+      tiles.push(n + suit);
     }
   }
   return tiles;
