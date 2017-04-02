@@ -70,18 +70,31 @@ function hand_to_emoji(hand) {
 }
 
 function process_command(content) {
-  var msg = "";
-
   if (content.startsWith("dora")) {
+    var msg = "";
     // dora tile
-    msg += "ドラ" + (hand_to_emoji(hand_regex.exec(content)[0])) + "        ";
+    var dora_tile = hand_regex.exec(content)[0];
+    msg += "ドラ" + (hand_to_emoji(dora_tile)) + "        ";
+    // this should work...
+    msg += process_hand(content.substring(content.indexOf(dora_tile)+1));
+    return msg;
+  } else if (content.startsWith("hand") {
+    return process_hand(content);
+  } else {
+    // if no command, assume we want to process hand
+    return process_hand(content);
   }
+}
+
+function process_hand(content) {
+  var msg = "";
   var match;
 
   while ((match = hand_regex.exec(content)) !== null) {
     var hand = match[0];
     msg += hand_to_emoji(hand) + "    ";
   }
+
   return msg;
 }
 
@@ -96,7 +109,7 @@ bot.on('message', message => {
     var rest = content.substring(content.indexOf(prefix)+1);
     // test that it was actually a command, and not a random use of $prefix
     if (new RegExp("^" + part_regex.source()).match(rest)) {
-      var msg = process_command(content);
+      var msg = process_hand(content);
       message.channel.sendMessage(msg);
     }
   }
