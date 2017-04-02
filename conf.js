@@ -1,6 +1,4 @@
-var exports = {};
-
-exports.token = "Mjk2OTY2MjEyMTYyNjgyODgw.C7563A.FmPZ5WNjIDVF44sx_8RcKOtFyhw";
+exports.token = "Mjk2OTY2MjEyMTYyNjgyODgw.C8LBtw.nu20TKGY7GfTBiPmdWF_Qorhabs";
 exports.prefix = "!";
 
 exports.emoji_codes = {
