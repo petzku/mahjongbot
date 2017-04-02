@@ -1,6 +1,8 @@
 /*
  * A simple bot that replies with emoji versions of mahjong hands
  */
+"use strict";
+
 const Discord = require("discord.js");
 const conf = require("./conf");
 
