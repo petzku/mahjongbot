@@ -1,0 +1,13 @@
+{
+  "name": "mahjongbot",
+  "version": "0.0.1",
+  "description": "Discord bot that sends mahjong hands as emoji",
+  "author": "Petteri Huuskonen <p@zku.fi>",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "discord.js": "latest"
+  }
+}
