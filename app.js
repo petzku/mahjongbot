@@ -72,8 +72,11 @@ function hand_to_emoji(hand) {
 bot.on('message', message => {
   var content = message.content;
   if (content.startsWith(prefix)) {
+    // remove the prefix
+    content = content.replace(prefix, '');
     var msg = "";
-    if (content.startsWith(prefix+"dora")) {
+
+    if (content.startsWith("dora")) {
       // dora tile
       msg += "ドラ" + (hand_to_emoji(hand_regex.exec(content)[0])) + "        ";
     }
