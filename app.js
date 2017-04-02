@@ -1,7 +1,6 @@
 /*
  * A simple bot that replies with emoji versions of mahjong hands
  */
-
 const Discord = require("discord.js");
 const conf = require("./conf");
 
@@ -15,20 +14,32 @@ const hand_regex = /([0-9]+[psm]|[1-7]+z)+/g;
 const part_regex = /([0-9]+)([psm])|([1-7]+)z/g;
 const tile_regex = /[0-9][pms]|[1-7]z/;
 
-function hand_to_emoji(hand) {
+function tiles_to_emoji(tiles) {
   let res = "";
+  for (const t of tiles) {
+    const code = t + suit;
+    res += "<:" + code + ":" + emoji_codes[code] + ">";
+  }
+  return res;
+}
+
+function hand_to_tiles(hand) {
   let match;
+  let tiles = [];
 
   while ((match = part_regex.exec(hand)) !== null) {
     const tiles = match[1] || match[3];
     const suit = match[2] || 'z';
 
     for (const t of tiles) {
-      const code = t + suit;
-      res += "<:" + code + ":" + emoji_codes[code] + ">";
+      tiles.push(t + suit);
     }
   }
-  return res;
+  return tiles;
+}
+
+function hand_to_emoji(hand) {
+  return tiles_to_emoji(hand_to_tiles(hand));
 }
 
 function process_command(content) {
@@ -38,7 +49,7 @@ function process_command(content) {
     const dora_tile = hand_regex.exec(content)[0];
     msg += "ドラ" + (hand_to_emoji(dora_tile)) + "        ";
     // this should work...
-    msg += process_hand(content.substring(content.indexOf(dora_tile)+1));
+    msg += process_hand(content.drop_to_first(dora_tile));
     return msg;
   } else if (content.startsWith("hand")) {
     return process_hand(content);
@@ -60,14 +71,21 @@ function process_hand(content) {
   return msg;
 }
 
+function drop_to_first(haystack, needle) {
+  return haystack.substring(haystack.indexOf(needle)+1);
+}
+
 bot.on('message', message => {
   let content = message.content;
   if (content.startsWith(prefix)) {
     // remove the prefix
     content = content.replace(prefix, '');
-    message.channel.sendMessage(process_command(content));
+    const msg = process_command(content);
+    if (msg) {
+      message.channel.sendMessage(msg);
+    }
   } else if (content.includes(prefix)) {
-    const rest = content.substring(content.indexOf(prefix)+1);
+    const rest = content.drop_to_first(needle);
 
     // test that it was actually a hand, and not a random use of $prefix
     if (new RegExp("^" + part_regex.source).test(rest)) {
