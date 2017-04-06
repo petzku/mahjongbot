@@ -107,4 +107,7 @@ bot.on('message', message => {
   }
 });
 
-bot.login(token);
+bot.login(token)
+  .then(() => {
+    bot.user.setGame("Mahjong, probably");
+  });
