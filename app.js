@@ -54,8 +54,7 @@ function process_command(content) {
     // dora tile
     const dora_tile = hand_regex.exec(content)[0];
     msg += "ドラ" + (hand_to_emoji(dora_tile)) + "        ";
-    // this should work...
-    msg += process_hand(drop_to_first(content, dora_tile));
+    msg += process_hand(content);
     return msg;
   } else if (content.startsWith("sort")) {
     let msg = "";
@@ -85,7 +84,7 @@ function process_hand(content) {
 }
 
 function drop_to_first(haystack, needle) {
-  return haystack.substring(haystack.indexOf(needle)+1);
+  return haystack.substring(haystack.indexOf(needle)+needle.length);
 }
 
 bot.on('message', message => {
