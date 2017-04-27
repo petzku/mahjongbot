@@ -44,7 +44,7 @@ function hand_to_emoji(hand) {
 }
 
 function sort_tiles(tiles) {
-  const sorted = _.orderBy(tiles, [1, 0]);
+  const sorted = _.orderBy(tiles, [1, tile => (tile[0] === '0') ? 5.5 : parseInt(tile[0])]);
   return sorted;
 }
 
