@@ -11,12 +11,13 @@ const bot = new Discord.Client();
 
 const token = conf.token;
 const prefix = conf.prefix;
-const emoji_codes = conf.emoji_codes;
+//const emoji_codes = conf.emoji_codes;
 
 const hand_regex = /([0-9]+[psm]|[1-7]+z)+/g;
 const part_regex = /([0-9]+)([psm])|([1-7]+)z/g;
 const tile_regex = /[0-9][pms]|[1-7]z/;
 
+/*
 function tiles_to_emoji(tiles) {
     let res = "";
     for (const t of tiles) {
@@ -47,7 +48,9 @@ function sort_tiles(tiles) {
     const sorted = _.orderBy(tiles, [1, tile => (tile[0] === '0') ? 5.5 : parseInt(tile[0])]);
     return sorted;
 }
+*/
 
+/*
 function process_command(content) {
     if (content.startsWith("dora")) {
         let msg = "";
@@ -82,6 +85,7 @@ function process_hand(content) {
 
     return msg;
 }
+*/
 
 function drop_to_first(haystack, needle) {
     return haystack.substring(haystack.indexOf(needle)+needle.length);
@@ -92,17 +96,17 @@ bot.on('message', message => {
     if (content.startsWith(prefix)) {
         // remove the prefix
         content = content.replace(prefix, '');
-        const msg = process_command(content);
-        if (msg) {
-            message.channel.sendMessage(msg);
-        }
-    } else if (content.includes(prefix)) {
-        const rest = drop_to_first(content, prefix);
-
-        // test that it was actually a hand, and not a random use of $prefix
-        if (new RegExp("^" + part_regex.source).test(rest)) {
-            message.channel.sendMessage(process_hand(content));
-        }
+//        const msg = process_command(content);
+//        if (msg) {
+//            message.channel.sendMessage(msg);
+//        }
+//    } else if (content.includes(prefix)) {
+//        const rest = drop_to_first(content, prefix);
+//
+//        // test that it was actually a hand, and not a random use of $prefix
+//        if (new RegExp("^" + part_regex.source).test(rest)) {
+//            message.channel.sendMessage(process_hand(content));
+//        }
     }
 });
 
