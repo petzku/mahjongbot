@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "discord.js": "latest",
-    "lodash": "latest"
+    "lodash": "latest",
+    "jimp": "latest"
   }
 }
