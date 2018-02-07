@@ -7,15 +7,17 @@ const Discord = require("discord.js");
 const conf = require("./conf");
 const _ = require("lodash");
 
+const image = require("./image");
+
 const bot = new Discord.Client();
 
 const token = conf.token;
 const prefix = conf.prefix;
 //const emoji_codes = conf.emoji_codes;
 
-const hand_regex = /([0-9]+[psm]|[1-7]+z)+/g;
+const hand_regex = /((?:[0-9]\.?)+[psm]|(?:[0-7]\.?)+z)+/g;
 const part_regex = /([0-9]+)([psm])|([1-7]+)z/g;
-const tile_regex = /[0-9][pms]|[1-7]z/;
+//const tile_regex = /[0-9][pms]|[1-7]z/;
 
 /*
 function tiles_to_emoji(tiles) {
@@ -91,11 +93,24 @@ function drop_to_first(haystack, needle) {
     return haystack.substring(haystack.indexOf(needle)+needle.length);
 }
 
-bot.on('message', message => {
+bot.on('message', (message) => {
+    // test that it was actually a hand, and not a random use of $prefix
     let content = message.content;
-    if (content.startsWith(prefix)) {
+    if (/^!([0-9]+)([psm])|([1-7]+)z/g.test(content)) {
         // remove the prefix
         content = content.replace(prefix, '');
+        let sets = [];
+        let match;
+        while ((match = hand_regex.exec(content)) !== null) {
+            //do stuff
+            sets.push(match[0]);
+        }
+        const img = image.render(sets);
+        setTimeout(function() {
+            img.getBuffer("image/png", function(err, file) {
+                message.channel.send(new Discord.Attachment(file));
+            });
+        }, 500);
 //        const msg = process_command(content);
 //        if (msg) {
 //            message.channel.sendMessage(msg);
@@ -103,10 +118,7 @@ bot.on('message', message => {
 //    } else if (content.includes(prefix)) {
 //        const rest = drop_to_first(content, prefix);
 //
-//        // test that it was actually a hand, and not a random use of $prefix
-//        if (new RegExp("^" + part_regex.source).test(rest)) {
 //            message.channel.sendMessage(process_hand(content));
-//        }
     }
 });
 
