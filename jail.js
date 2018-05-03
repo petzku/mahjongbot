@@ -1,5 +1,5 @@
-const JAIL_ROLE_ID = "441698026906451988"; // test role
-// const JAIL_ROLE_ID = "419145027307175937";
+// const JAIL_ROLE_ID = "441698026906451988"; // test role
+const JAIL_ROLE_ID = "419145027307175937";
 function jail(message) {
     const jail_role = message.guild.roles.get(JAIL_ROLE_ID);
     if (message.mentions.members.size < 1) {

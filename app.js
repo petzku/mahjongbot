@@ -30,7 +30,9 @@ bot.on('message', (message) => {
         const ret = jail.jail(message);
         if (ret == 0) {
             // all ok, respond
-            // TODO
+            // automatically delete confirmation message after 10 seconds
+            message.reply("Succesfully added role!")
+                .then(msg => msg.delete(10000));
             console.log("jail.jail success");
         } else {
             console.error("jail.jail failed with error code " + ret);
@@ -40,7 +42,9 @@ bot.on('message', (message) => {
         const ret = jail.free(message);
         if (ret == 0) {
             // all ok, respond
-            // TODO
+            // automatically delete confirmation message after 10 seconds
+            message.reply("Succesfully removed role!")
+                .then(msg => msg.delete(10000));
             console.log("jail.free success");
         } else {
             console.error("jail.free failed with error code " + ret);
