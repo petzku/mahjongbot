@@ -10,6 +10,9 @@ function jail(message) {
     if (target.roles.has(jail_role.id)) {
         // user already has role, error
         return 1;
+    } else if (target.id == message.member.id) {
+        // user trying to set own role
+        return 2;
     } else {
         target.addRole(jail_role).catch(console.log);
         return 0;
@@ -26,6 +29,9 @@ function free(message) {
     if (!target.roles.has(jail_role.id)) {
         // user doesn't have role, error
         return 1;
+    } else if (target.id == message.member.id) {
+        // user trying to set own role
+        return 2;
     } else {
         target.removeRole(jail_role).catch(console.log);
         return 0;
