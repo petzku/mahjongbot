@@ -8,6 +8,7 @@ const conf = require("./conf");
 const _ = require("lodash");
 
 const image = require("./image");
+const jail = require("./jail");
 
 const bot = new Discord.Client();
 
@@ -94,32 +95,54 @@ function drop_to_first(haystack, needle) {
 }
 
 bot.on('message', (message) => {
-    // test that it was actually a hand, and not a random use of $prefix
     let content = message.content;
-    if (/^!([0-9]+)([psm])|([1-7]+)z/g.test(content)) {
-        // remove the prefix
-        content = content.replace(prefix, '');
-        let sets = [];
-        let match;
-        while ((match = hand_regex.exec(content)) !== null) {
-            //do stuff
-            sets.push(match[0]);
+    if (content.startsWith(prefix+"jail")) {
+        const ret = jail.jail(message);
+        if (ret == 0) {
+            // all ok, respond
+            // TODO
+            console.log("jail.jail success");
+        } else {
+            console.error("jail.jail failed with error code " + ret);
+            console.error("message: '" + message.content + "'");
         }
-        const name = sets.join(" ") + ".png";
-        const img = image.render(sets);
-        setTimeout(function() {
-            img.getBuffer("image/png", function(err, file) {
-                message.channel.send(new Discord.Attachment(file, name));
-            });
-        }, 500);
-//        const msg = process_command(content);
-//        if (msg) {
-//            message.channel.sendMessage(msg);
-//        }
-//    } else if (content.includes(prefix)) {
-//        const rest = drop_to_first(content, prefix);
-//
-//            message.channel.sendMessage(process_hand(content));
+    } else if (content.startsWith(prefix+"free")) {
+        const ret = jail.free(message);
+        if (ret == 0) {
+            // all ok, respond
+            // TODO
+            console.log("jail.free success");
+        } else {
+            console.error("jail.free failed with error code " + ret);
+            console.error("message: '" + message.content + "'");
+        }
+    } else {
+        // test that it was actually a hand, and not a random use of $prefix
+        if (/^!([0-9]+)([psm])|([1-7]+)z/g.test(content)) {
+            // remove the prefix
+            content = content.replace(prefix, '');
+            let sets = [];
+            let match;
+            while ((match = hand_regex.exec(content)) !== null) {
+                //do stuff
+                sets.push(match[0]);
+            }
+            const name = sets.join(" ") + ".png";
+            const img = image.render(sets);
+            setTimeout(function() {
+                img.getBuffer("image/png", function(err, file) {
+                    message.channel.send(new Discord.Attachment(file, name));
+                });
+            }, 500);
+    //        const msg = process_command(content);
+    //        if (msg) {
+    //            message.channel.sendMessage(msg);
+    //        }
+    //    } else if (content.includes(prefix)) {
+    //        const rest = drop_to_first(content, prefix);
+    //
+    //            message.channel.sendMessage(process_hand(content));
+        }
     }
 });
 
