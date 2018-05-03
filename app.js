@@ -105,10 +105,11 @@ bot.on('message', (message) => {
             //do stuff
             sets.push(match[0]);
         }
+        const name = sets.join(" ") + ".png";
         const img = image.render(sets);
         setTimeout(function() {
             img.getBuffer("image/png", function(err, file) {
-                message.channel.send(new Discord.Attachment(file));
+                message.channel.send(new Discord.Attachment(file, name));
             });
         }, 500);
 //        const msg = process_command(content);
