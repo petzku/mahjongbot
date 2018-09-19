@@ -19,7 +19,7 @@ function jail(message) {
     }
 }
         
-function free(message) {
+function bail(message) {
     const jail_role = message.guild.roles.get(JAIL_ROLE_ID);
     if (message.mentions.members.size < 1) {
         // no user specified, error
@@ -40,4 +40,4 @@ function free(message) {
 
 
 module.exports.jail = jail;
-module.exports.free = free;
+module.exports.bail = bail;

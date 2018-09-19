@@ -38,16 +38,16 @@ bot.on('message', (message) => {
             console.error("jail.jail failed with error code " + ret);
             console.error("message: '" + message.content + "'");
         }
-    } else if (content.startsWith(prefix+"free")) {
-        const ret = jail.free(message);
+    } else if (content.startsWith(prefix+"bail")) {
+        const ret = jail.bail(message);
         if (ret == 0) {
             // all ok, respond
             // automatically delete confirmation message after 10 seconds
             message.reply("Succesfully removed role!")
                 .then(msg => msg.delete(10000));
-            console.log("jail.free success");
+            console.log("jail.bail success");
         } else {
-            console.error("jail.free failed with error code " + ret);
+            console.error("jail.bail failed with error code " + ret);
             console.error("message: '" + message.content + "'");
         }
     } else {
