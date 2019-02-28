@@ -6,13 +6,14 @@
 const Discord = require("discord.js");
 const conf = require("./conf");
 const _ = require("lodash");
+const secrets = require("./secret");
 
 const image = require("./image");
 const jail = require("./jail");
 
 const bot = new Discord.Client();
 
-const token = conf.token;
+const token = secrets.token;
 const prefix = conf.prefix;
 //const emoji_codes = conf.emoji_codes;
 

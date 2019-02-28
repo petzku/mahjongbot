@@ -1,4 +1,3 @@
-exports.token = "Mjk2OTY2MjEyMTYyNjgyODgw.C8LBtw.nu20TKGY7GfTBiPmdWF_Qorhabs";
 exports.prefix = "!";
 
 exports.emoji_codes = {
